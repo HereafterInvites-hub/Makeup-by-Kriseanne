@@ -436,6 +436,7 @@
   .bk-done{text-align:center;padding:clamp(10px,3vw,30px) 0}
   .bk-done h3{font-family:var(--font-title);font-weight:400;font-size:clamp(30px,3.6vw,42px);color:var(--title);margin:0 0 12px;line-height:1.15}
   .bk-done p{margin:0 auto 12px;max-width:48ch;font-size:15.5px;line-height:1.75}
+  .bk-done a{color:var(--rose-ink);font-weight:500}
   .bk-done .heart{font-family:var(--font-num);font-size:40px;color:var(--rose)}
   @media (max-width:640px){ .bk-row{grid-template-columns:1fr} .bk-map{height:300px} .bk-map-search{flex-wrap:wrap} .bk-map-search .bk-btn-sm{flex:1} }
   /* Map pin + essential map styles */
@@ -464,6 +465,18 @@
   .leaflet-control-attribution{background:rgba(255,255,255,.85);padding:1px 7px;font-size:10px;line-height:1.5;color:#6b5a5e}
   .leaflet-control-attribution a{color:#6b5a5e}
   .mk-pin{width:30px;height:42px;display:block;filter:drop-shadow(0 3px 4px rgba(122,62,78,.35))}
+
+  /* Mobile fix: give every rate photo a fixed shape so it can't grow over the text (iOS / in-app browsers) */
+  @media (max-width:860px){
+    .rate-body > .set-2{align-self:start}
+    .photo-set img{height:auto}
+    .set-wed{grid-template-rows:auto auto}
+    .set-wed img:first-child{aspect-ratio:3/2;min-height:0;height:auto}
+    .set-wed img:not(:first-child){aspect-ratio:4/5;min-height:0;height:auto}
+    .set-2:not(.set-wed) img{aspect-ratio:4/5;min-height:0}
+    .set-3{grid-template-rows:auto auto}
+    .set-3 img:first-child{aspect-ratio:27/50;height:auto}
+  }
 </style>
 </head>
 <body>
@@ -899,9 +912,9 @@
 
         <div class="bk-done" id="bkDone" hidden tabindex="-1">
           <p class="heart">♡</p>
-          <h3>Thank you, <span id="bkDoneName">lovely</span>!</h3>
-          <p>Your booking request is in! I'll message you at <strong id="bkDonePhone"></strong> to confirm your slot and send the details for the <strong>₱500 reservation fee</strong>.</p>
-          <p>Your date is officially yours once the reservation fee is received. Can't wait to see you!</p>
+          <h3>Thank you, <span id="bkDoneName">dear client</span>.</h3>
+          <p>Your booking request has been received. I will reach out to you through my <a href="https://www.facebook.com/p/Makeup-by-Kriseanne-100094520827512/" target="_blank" rel="noopener">Facebook</a> or <a href="https://www.instagram.com/makeupbykriseanne" target="_blank" rel="noopener">Instagram</a> page to confirm your slot and provide the details for the <strong>₱500 reservation fee</strong>.</p>
+          <p>Kindly note that your date will be officially reserved once the reservation fee has been received. I look forward to working with you.</p>
         </div>
       </div>
     </div>
@@ -1130,8 +1143,7 @@
       btn.setAttribute('aria-busy','true'); btn.disabled=true; btn.textContent='Sending…';
       fetch(BOOKING_SHEET_URL,{method:'POST',mode:'no-cors',body:data})
         .then(function(){
-          $('bkDoneName').textContent=$('bkNames').value.trim().split(/\s+/)[0]||'lovely';
-          $('bkDonePhone').textContent=$('bkPhone').value.trim();
+          $('bkDoneName').textContent=$('bkNames').value.trim().split(/\s+/)[0]||'dear client';
           form.hidden=true; var done=$('bkDone'); done.hidden=false; done.focus();
           done.scrollIntoView({behavior:'smooth',block:'center'});
         })
