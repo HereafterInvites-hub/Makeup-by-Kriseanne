@@ -466,16 +466,19 @@
   .leaflet-control-attribution a{color:#6b5a5e}
   .mk-pin{width:30px;height:42px;display:block;filter:drop-shadow(0 3px 4px rgba(122,62,78,.35))}
 
-  /* Mobile fix: give every rate photo a fixed shape so it can't grow over the text (iOS / in-app browsers) */
+  /* Mobile fix: fixed photo heights (no aspect-ratio or % heights), so photos can never spill over the text on iPhone / in-app browsers */
   @media (max-width:860px){
-    .rate-body > .set-2{align-self:start}
-    .photo-set img{height:auto}
-    .set-wed{grid-template-rows:auto auto}
-    .set-wed img:first-child{aspect-ratio:3/2;min-height:0;height:auto}
-    .set-wed img:not(:first-child){aspect-ratio:4/5;min-height:0;height:auto}
-    .set-2:not(.set-wed) img{aspect-ratio:4/5;min-height:0}
-    .set-3{grid-template-rows:auto auto}
-    .set-3 img:first-child{aspect-ratio:27/50;height:auto}
+    .rate-body{display:block}
+    .rate-body > .photo-set{margin-bottom:28px}
+    .photo-set{display:grid;grid-template-rows:none;align-items:start}
+    .photo-set img{aspect-ratio:auto!important;min-height:0!important;max-height:none;height:62vw!important;width:100%}
+    .set-wed{grid-template-columns:1fr 1fr}
+    .set-wed img:first-child{grid-column:1 / span 2;height:52vw!important}
+    .set-2:not(.set-wed) img{height:62vw!important}
+    .set-3{grid-template-columns:1.35fr 1fr}
+    .set-3 img{height:44vw!important}
+    .set-3 img:first-child{grid-row:1 / span 2;height:calc(88vw + 16px)!important}
+    .set-4 img{height:52vw!important}
   }
 </style>
 </head>
